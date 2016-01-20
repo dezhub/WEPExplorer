@@ -723,6 +723,7 @@ namespace Explore
             PopulateProviderMetadataKeywords(LastMetadataFilter.Nodes);
 
             gbProviderMetadata.Text = "Provider metadata - " + ProviderName;
+            gbProviderFilters.Text = "Provider filters - " + ProviderName;
         }
 
         private void PopulateProviderMetadataKeywords(XmlNode Nodes)

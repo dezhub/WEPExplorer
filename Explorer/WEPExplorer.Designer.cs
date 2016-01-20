@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
             PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties3 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties4 = new PresentationControls.CheckBoxProperties();
-            System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WEPExplorer));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbProviderFilters = new System.Windows.Forms.GroupBox();
             this.cbchkTasks = new PresentationControls.CheckBoxComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnProvFilterApply = new System.Windows.Forms.Button();
@@ -47,7 +47,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbProviderKeywords = new System.Windows.Forms.GroupBox();
             this.lvProviderKeywords = new System.Windows.Forms.ListView();
             this.lvcKeywordsValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvcKeywordsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -73,39 +73,44 @@
             this.ctxmenuProviders = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuMainFileClearCache = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMainFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMainHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxmenuProvKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuMainFileClearCache = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gbProviderFilters.SuspendLayout();
+            this.gbProviderKeywords.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.gbProviderMetadata.SuspendLayout();
             this.ctxmenuProvMetadata.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // toolStripMenuItem1
             // 
-            this.groupBox1.Controls.Add(this.cbchkTasks);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.btnProvFilterApply);
-            this.groupBox1.Controls.Add(this.txtProviderFilterText);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.cbchkOpcodes);
-            this.groupBox1.Controls.Add(this.cbchkLevels);
-            this.groupBox1.Controls.Add(this.cbchkChannels);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(7, 209);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(460, 189);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Provider filters";
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(132, 6);
+            // 
+            // gbProviderFilters
+            // 
+            this.gbProviderFilters.Controls.Add(this.cbchkTasks);
+            this.gbProviderFilters.Controls.Add(this.label6);
+            this.gbProviderFilters.Controls.Add(this.btnProvFilterApply);
+            this.gbProviderFilters.Controls.Add(this.txtProviderFilterText);
+            this.gbProviderFilters.Controls.Add(this.label5);
+            this.gbProviderFilters.Controls.Add(this.cbchkOpcodes);
+            this.gbProviderFilters.Controls.Add(this.cbchkLevels);
+            this.gbProviderFilters.Controls.Add(this.cbchkChannels);
+            this.gbProviderFilters.Controls.Add(this.label3);
+            this.gbProviderFilters.Controls.Add(this.label2);
+            this.gbProviderFilters.Controls.Add(this.label1);
+            this.gbProviderFilters.Location = new System.Drawing.Point(7, 209);
+            this.gbProviderFilters.Name = "gbProviderFilters";
+            this.gbProviderFilters.Size = new System.Drawing.Size(460, 189);
+            this.gbProviderFilters.TabIndex = 7;
+            this.gbProviderFilters.TabStop = false;
+            this.gbProviderFilters.Text = "Provider filters";
             // 
             // cbchkTasks
             // 
@@ -223,17 +228,17 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Channels:";
             // 
-            // groupBox2
+            // gbProviderKeywords
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbProviderKeywords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.lvProviderKeywords);
-            this.groupBox2.Location = new System.Drawing.Point(470, 209);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(390, 189);
-            this.groupBox2.TabIndex = 8;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Keywords";
+            this.gbProviderKeywords.Controls.Add(this.lvProviderKeywords);
+            this.gbProviderKeywords.Location = new System.Drawing.Point(470, 209);
+            this.gbProviderKeywords.Name = "gbProviderKeywords";
+            this.gbProviderKeywords.Size = new System.Drawing.Size(390, 189);
+            this.gbProviderKeywords.TabIndex = 8;
+            this.gbProviderKeywords.TabStop = false;
+            this.gbProviderKeywords.Text = "Keywords";
             // 
             // lvProviderKeywords
             // 
@@ -438,10 +443,17 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // menuMainFileClearCache
+            // 
+            this.menuMainFileClearCache.Name = "menuMainFileClearCache";
+            this.menuMainFileClearCache.Size = new System.Drawing.Size(135, 22);
+            this.menuMainFileClearCache.Text = "Clear cache";
+            this.menuMainFileClearCache.Click += new System.EventHandler(this.menuMainFileClearCache_Click);
+            // 
             // menuMainFileExit
             // 
             this.menuMainFileExit.Name = "menuMainFileExit";
-            this.menuMainFileExit.Size = new System.Drawing.Size(152, 22);
+            this.menuMainFileExit.Size = new System.Drawing.Size(135, 22);
             this.menuMainFileExit.Text = "E&xit";
             this.menuMainFileExit.Click += new System.EventHandler(this.menuMainFileExit_Click);
             // 
@@ -465,18 +477,6 @@
             this.ctxmenuProvKeywords.Name = "ctxmenuProvKeywords";
             this.ctxmenuProvKeywords.Size = new System.Drawing.Size(61, 4);
             // 
-            // menuMainFileClearCache
-            // 
-            this.menuMainFileClearCache.Name = "menuMainFileClearCache";
-            this.menuMainFileClearCache.Size = new System.Drawing.Size(152, 22);
-            this.menuMainFileClearCache.Text = "Clear cache";
-            this.menuMainFileClearCache.Click += new System.EventHandler(this.menuMainFileClearCache_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
-            // 
             // WEPExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -485,15 +485,15 @@
             this.Controls.Add(this.menuMain);
             this.Controls.Add(this.gbProviderMetadata);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbProviderKeywords);
+            this.Controls.Add(this.gbProviderFilters);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WEPExplorer";
             this.Text = "Windows Events Providers Explorer";
             this.Load += new System.EventHandler(this.WEPExplorerForm_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.gbProviderFilters.ResumeLayout(false);
+            this.gbProviderFilters.PerformLayout();
+            this.gbProviderKeywords.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.gbProviderMetadata.ResumeLayout(false);
@@ -507,11 +507,11 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbProviderFilters;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbProviderKeywords;
         private System.Windows.Forms.ListView lvProviderKeywords;
         private PresentationControls.CheckBoxComboBox cbchkOpcodes;
         private PresentationControls.CheckBoxComboBox cbchkLevels;
