@@ -33,6 +33,7 @@
             PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties3 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties4 = new PresentationControls.CheckBoxProperties();
+            System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WEPExplorer));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbchkTasks = new PresentationControls.CheckBoxComboBox();
@@ -76,6 +77,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMainHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxmenuProvKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuMainFileClearCache = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -428,6 +431,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuMainFileClearCache,
+            toolStripMenuItem1,
             this.menuMainFileExit});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -451,7 +456,7 @@
             // menuMainHelpAbout
             // 
             this.menuMainHelpAbout.Name = "menuMainHelpAbout";
-            this.menuMainHelpAbout.Size = new System.Drawing.Size(152, 22);
+            this.menuMainHelpAbout.Size = new System.Drawing.Size(107, 22);
             this.menuMainHelpAbout.Text = "&About";
             this.menuMainHelpAbout.Click += new System.EventHandler(this.menuMainHelpAbout_Click);
             // 
@@ -459,6 +464,18 @@
             // 
             this.ctxmenuProvKeywords.Name = "ctxmenuProvKeywords";
             this.ctxmenuProvKeywords.Size = new System.Drawing.Size(61, 4);
+            // 
+            // menuMainFileClearCache
+            // 
+            this.menuMainFileClearCache.Name = "menuMainFileClearCache";
+            this.menuMainFileClearCache.Size = new System.Drawing.Size(152, 22);
+            this.menuMainFileClearCache.Text = "Clear cache";
+            this.menuMainFileClearCache.Click += new System.EventHandler(this.menuMainFileClearCache_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // WEPExplorer
             // 
@@ -532,6 +549,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuMainHelpAbout;
         private System.Windows.Forms.ContextMenuStrip ctxmenuProvKeywords;
+        private System.Windows.Forms.ToolStripMenuItem menuMainFileClearCache;
     }
 }
 

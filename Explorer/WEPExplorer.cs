@@ -25,6 +25,11 @@
 * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 * SUCH DAMAGE.
 * ----------------------------------------------------------------------------- 
+*
+*
+* 01/19/2016 - Initial version
+* 01/20/2016 - Added "File/Clear cache"
+*
 */
 using WEPExplorer;
 using System;
@@ -459,7 +464,7 @@ namespace Explore
 
         private string GetProviderMetadataFile(string ProviderName)
         {
-            return  Path.Combine(ProvidersMetadataFolder, ProviderName + ".xml");
+            return Path.Combine(ProvidersMetadataFolder, ProviderName + ".xml");
         }
 
         private XmlNode GetProviderMetadataXml(string ProviderName)
@@ -783,6 +788,20 @@ namespace Explore
         private void menuMainFileExit_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void menuMainFileClearCache_Click(
+            object sender, 
+            EventArgs e)
+        {
+            try
+            {
+                Directory.Delete(ProvidersMetadataFolder, true);
+            }
+            catch (Exception)
+            {
+            }
+            InitPathes();
         }
     }
 }
