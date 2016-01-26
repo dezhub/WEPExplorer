@@ -34,8 +34,11 @@
             PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties3 = new PresentationControls.CheckBoxProperties();
             PresentationControls.CheckBoxProperties checkBoxProperties4 = new PresentationControls.CheckBoxProperties();
+            PresentationControls.CheckBoxProperties checkBoxProperties5 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WEPExplorer));
             this.gbProviderFilters = new System.Windows.Forms.GroupBox();
+            this.cbchkTemplateFields = new PresentationControls.CheckBoxComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.cbchkTasks = new PresentationControls.CheckBoxComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.btnProvFilterApply = new System.Windows.Forms.Button();
@@ -70,7 +73,11 @@
             this.lvcProvMetadataFields = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ctxmenuProvMetadata = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxmenuitemProvMetaInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctxmenuitemProvMetaCopyID = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxmenuitemProvMetaCopyIDAsCase = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxmenuProviders = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxmenuProviderCopyName = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMainFileClearCache = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,6 +91,7 @@
             this.groupBox3.SuspendLayout();
             this.gbProviderMetadata.SuspendLayout();
             this.ctxmenuProvMetadata.SuspendLayout();
+            this.ctxmenuProviders.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,6 +102,8 @@
             // 
             // gbProviderFilters
             // 
+            this.gbProviderFilters.Controls.Add(this.cbchkTemplateFields);
+            this.gbProviderFilters.Controls.Add(this.label7);
             this.gbProviderFilters.Controls.Add(this.cbchkTasks);
             this.gbProviderFilters.Controls.Add(this.label6);
             this.gbProviderFilters.Controls.Add(this.btnProvFilterApply);
@@ -107,17 +117,39 @@
             this.gbProviderFilters.Controls.Add(this.label1);
             this.gbProviderFilters.Location = new System.Drawing.Point(7, 209);
             this.gbProviderFilters.Name = "gbProviderFilters";
-            this.gbProviderFilters.Size = new System.Drawing.Size(460, 189);
+            this.gbProviderFilters.Size = new System.Drawing.Size(460, 225);
             this.gbProviderFilters.TabIndex = 7;
             this.gbProviderFilters.TabStop = false;
             this.gbProviderFilters.Text = "Provider filters";
+            // 
+            // cbchkTemplateFields
+            // 
+            this.cbchkTemplateFields.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cbchkTemplateFields.CheckBoxProperties = checkBoxProperties1;
+            this.cbchkTemplateFields.DisplayMemberSingleItem = "";
+            this.cbchkTemplateFields.FormattingEnabled = true;
+            this.cbchkTemplateFields.Location = new System.Drawing.Point(83, 135);
+            this.cbchkTemplateFields.Name = "cbchkTemplateFields";
+            this.cbchkTemplateFields.Size = new System.Drawing.Size(371, 21);
+            this.cbchkTemplateFields.TabIndex = 21;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(5, 138);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Template fields:";
             // 
             // cbchkTasks
             // 
             this.cbchkTasks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cbchkTasks.CheckBoxProperties = checkBoxProperties1;
+            checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cbchkTasks.CheckBoxProperties = checkBoxProperties2;
             this.cbchkTasks.DisplayMemberSingleItem = "";
             this.cbchkTasks.FormattingEnabled = true;
             this.cbchkTasks.Location = new System.Drawing.Point(83, 106);
@@ -136,7 +168,7 @@
             // 
             // btnProvFilterApply
             // 
-            this.btnProvFilterApply.Location = new System.Drawing.Point(83, 160);
+            this.btnProvFilterApply.Location = new System.Drawing.Point(83, 192);
             this.btnProvFilterApply.Name = "btnProvFilterApply";
             this.btnProvFilterApply.Size = new System.Drawing.Size(129, 23);
             this.btnProvFilterApply.TabIndex = 17;
@@ -148,7 +180,7 @@
             // 
             this.txtProviderFilterText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProviderFilterText.Location = new System.Drawing.Point(83, 134);
+            this.txtProviderFilterText.Location = new System.Drawing.Point(83, 163);
             this.txtProviderFilterText.Name = "txtProviderFilterText";
             this.txtProviderFilterText.Size = new System.Drawing.Size(371, 20);
             this.txtProviderFilterText.TabIndex = 16;
@@ -156,7 +188,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 137);
+            this.label5.Location = new System.Drawing.Point(8, 166);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 15;
@@ -166,8 +198,8 @@
             // 
             this.cbchkOpcodes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cbchkOpcodes.CheckBoxProperties = checkBoxProperties2;
+            checkBoxProperties3.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cbchkOpcodes.CheckBoxProperties = checkBoxProperties3;
             this.cbchkOpcodes.DisplayMemberSingleItem = "";
             this.cbchkOpcodes.FormattingEnabled = true;
             this.cbchkOpcodes.Location = new System.Drawing.Point(83, 79);
@@ -179,8 +211,8 @@
             // 
             this.cbchkLevels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            checkBoxProperties3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cbchkLevels.CheckBoxProperties = checkBoxProperties3;
+            checkBoxProperties4.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cbchkLevels.CheckBoxProperties = checkBoxProperties4;
             this.cbchkLevels.DisplayMemberSingleItem = "";
             this.cbchkLevels.FormattingEnabled = true;
             this.cbchkLevels.Location = new System.Drawing.Point(83, 52);
@@ -192,8 +224,8 @@
             // 
             this.cbchkChannels.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            checkBoxProperties4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cbchkChannels.CheckBoxProperties = checkBoxProperties4;
+            checkBoxProperties5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cbchkChannels.CheckBoxProperties = checkBoxProperties5;
             this.cbchkChannels.DisplayMemberSingleItem = "";
             this.cbchkChannels.FormattingEnabled = true;
             this.cbchkChannels.Location = new System.Drawing.Point(83, 23);
@@ -235,7 +267,7 @@
             this.gbProviderKeywords.Controls.Add(this.lvProviderKeywords);
             this.gbProviderKeywords.Location = new System.Drawing.Point(470, 209);
             this.gbProviderKeywords.Name = "gbProviderKeywords";
-            this.gbProviderKeywords.Size = new System.Drawing.Size(390, 189);
+            this.gbProviderKeywords.Size = new System.Drawing.Size(390, 225);
             this.gbProviderKeywords.TabIndex = 8;
             this.gbProviderKeywords.TabStop = false;
             this.gbProviderKeywords.Text = "Keywords";
@@ -251,7 +283,7 @@
             this.lvProviderKeywords.Location = new System.Drawing.Point(3, 16);
             this.lvProviderKeywords.MultiSelect = false;
             this.lvProviderKeywords.Name = "lvProviderKeywords";
-            this.lvProviderKeywords.Size = new System.Drawing.Size(384, 170);
+            this.lvProviderKeywords.Size = new System.Drawing.Size(384, 206);
             this.lvProviderKeywords.TabIndex = 7;
             this.lvProviderKeywords.UseCompatibleStateImageBehavior = false;
             this.lvProviderKeywords.View = System.Windows.Forms.View.Details;
@@ -313,7 +345,6 @@
             this.columnHeader2});
             this.lvProviders.FullRowSelect = true;
             this.lvProviders.Location = new System.Drawing.Point(3, 45);
-            this.lvProviders.MultiSelect = false;
             this.lvProviders.Name = "lvProviders";
             this.lvProviders.Size = new System.Drawing.Size(850, 140);
             this.lvProviders.TabIndex = 8;
@@ -338,9 +369,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbProviderMetadata.Controls.Add(this.lvProviderMetadata);
-            this.gbProviderMetadata.Location = new System.Drawing.Point(7, 404);
+            this.gbProviderMetadata.Location = new System.Drawing.Point(7, 440);
             this.gbProviderMetadata.Name = "gbProviderMetadata";
-            this.gbProviderMetadata.Size = new System.Drawing.Size(853, 324);
+            this.gbProviderMetadata.Size = new System.Drawing.Size(853, 301);
             this.gbProviderMetadata.TabIndex = 10;
             this.gbProviderMetadata.TabStop = false;
             this.gbProviderMetadata.Text = "Provider metadata";
@@ -360,7 +391,7 @@
             this.lvProviderMetadata.FullRowSelect = true;
             this.lvProviderMetadata.Location = new System.Drawing.Point(3, 16);
             this.lvProviderMetadata.Name = "lvProviderMetadata";
-            this.lvProviderMetadata.Size = new System.Drawing.Size(847, 305);
+            this.lvProviderMetadata.Size = new System.Drawing.Size(847, 282);
             this.lvProviderMetadata.TabIndex = 7;
             this.lvProviderMetadata.UseCompatibleStateImageBehavior = false;
             this.lvProviderMetadata.View = System.Windows.Forms.View.Details;
@@ -405,9 +436,12 @@
             // ctxmenuProvMetadata
             // 
             this.ctxmenuProvMetadata.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ctxmenuitemProvMetaInfo});
+            this.ctxmenuitemProvMetaInfo,
+            this.toolStripMenuItem2,
+            this.ctxmenuitemProvMetaCopyID,
+            this.ctxmenuitemProvMetaCopyIDAsCase});
             this.ctxmenuProvMetadata.Name = "ctxmenuProvMetadata";
-            this.ctxmenuProvMetadata.Size = new System.Drawing.Size(175, 26);
+            this.ctxmenuProvMetadata.Size = new System.Drawing.Size(175, 76);
             // 
             // ctxmenuitemProvMetaInfo
             // 
@@ -417,10 +451,38 @@
             this.ctxmenuitemProvMetaInfo.Text = "Information";
             this.ctxmenuitemProvMetaInfo.Click += new System.EventHandler(this.ctxmenuitemProvMetaInfo_Click);
             // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(171, 6);
+            // 
+            // ctxmenuitemProvMetaCopyID
+            // 
+            this.ctxmenuitemProvMetaCopyID.Name = "ctxmenuitemProvMetaCopyID";
+            this.ctxmenuitemProvMetaCopyID.Size = new System.Drawing.Size(174, 22);
+            this.ctxmenuitemProvMetaCopyID.Text = "Copy IDs";
+            this.ctxmenuitemProvMetaCopyID.Click += new System.EventHandler(this.ctxmenuitemProvMetaCopyID_Click);
+            // 
+            // ctxmenuitemProvMetaCopyIDAsCase
+            // 
+            this.ctxmenuitemProvMetaCopyIDAsCase.Name = "ctxmenuitemProvMetaCopyIDAsCase";
+            this.ctxmenuitemProvMetaCopyIDAsCase.Size = new System.Drawing.Size(174, 22);
+            this.ctxmenuitemProvMetaCopyIDAsCase.Text = "Copy IDs as \"case\"";
+            this.ctxmenuitemProvMetaCopyIDAsCase.Click += new System.EventHandler(this.ctxmenuitemProvMetaCopyIDAsCase_Click);
+            // 
             // ctxmenuProviders
             // 
+            this.ctxmenuProviders.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxmenuProviderCopyName});
             this.ctxmenuProviders.Name = "ctxmenuProvMetadata";
-            this.ctxmenuProviders.Size = new System.Drawing.Size(61, 4);
+            this.ctxmenuProviders.Size = new System.Drawing.Size(183, 26);
+            // 
+            // ctxmenuProviderCopyName
+            // 
+            this.ctxmenuProviderCopyName.Name = "ctxmenuProviderCopyName";
+            this.ctxmenuProviderCopyName.Size = new System.Drawing.Size(182, 22);
+            this.ctxmenuProviderCopyName.Text = "Copy provider name";
+            this.ctxmenuProviderCopyName.Click += new System.EventHandler(this.ctxmenuProviderCopyName_Click);
             // 
             // menuMain
             // 
@@ -481,7 +543,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 729);
+            this.ClientSize = new System.Drawing.Size(865, 742);
             this.Controls.Add(this.menuMain);
             this.Controls.Add(this.gbProviderMetadata);
             this.Controls.Add(this.groupBox3);
@@ -489,7 +551,7 @@
             this.Controls.Add(this.gbProviderFilters);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WEPExplorer";
-            this.Text = "Windows Events Providers Explorer";
+            this.Text = "Windows Events Providers Explorer - v1.1";
             this.Load += new System.EventHandler(this.WEPExplorerForm_Load);
             this.gbProviderFilters.ResumeLayout(false);
             this.gbProviderFilters.PerformLayout();
@@ -498,6 +560,7 @@
             this.groupBox3.PerformLayout();
             this.gbProviderMetadata.ResumeLayout(false);
             this.ctxmenuProvMetadata.ResumeLayout(false);
+            this.ctxmenuProviders.ResumeLayout(false);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();
             this.ResumeLayout(false);
@@ -550,6 +613,12 @@
         private System.Windows.Forms.ToolStripMenuItem menuMainHelpAbout;
         private System.Windows.Forms.ContextMenuStrip ctxmenuProvKeywords;
         private System.Windows.Forms.ToolStripMenuItem menuMainFileClearCache;
+        private PresentationControls.CheckBoxComboBox cbchkTemplateFields;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem ctxmenuitemProvMetaCopyID;
+        private System.Windows.Forms.ToolStripMenuItem ctxmenuitemProvMetaCopyIDAsCase;
+        private System.Windows.Forms.ToolStripMenuItem ctxmenuProviderCopyName;
     }
 }
 

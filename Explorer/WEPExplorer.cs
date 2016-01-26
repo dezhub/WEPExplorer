@@ -29,7 +29,9 @@
 *
 * 01/19/2016 - Initial version
 * 01/20/2016 - Added "File/Clear cache"
-*
+* 01/26/2016 - Added Template fields filter
+*            - Implemented Message content filter
+*            - Implemented "Copy provider name", "IDs", and "IDs as case" functionalities
 */
 using WEPExplorer;
 using System;
@@ -117,6 +119,8 @@ namespace Explore
             public HashSet<string> Tasks;
             public HashSet<string> Levels;
             public HashSet<string> Opcodes;
+            public HashSet<string> TemplateFields;
+            public string Message;
         }
 
         public ProviderMetadataFilter LastMetadataFilter = null;
@@ -422,7 +426,7 @@ namespace Explore
         }
 
         private void WEPExplorerForm_Load(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             CreateCommonMenuItems(
@@ -491,7 +495,7 @@ namespace Explore
         }
 
         private void ComputeProviderMetadata(
-            string ProviderName, 
+            string ProviderName,
             out XmlNode Nodes)
         {
             // Remember provider name
@@ -505,18 +509,30 @@ namespace Explore
             //
             PopulateCbChkFilters(
                 cbchkChannels,
-                Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", XML_PROVIDER, XML_METADATA, XML_CHANNELS, XML_CHANNEL)),
+                Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", 
+                        XML_PROVIDER, 
+                        XML_METADATA, 
+                        XML_CHANNELS, 
+                        XML_CHANNEL)),
                 XML_MESSAGE,
                 XML_PATH);
 
             PopulateCbChkFilters(
                 cbchkLevels,
-                Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", XML_PROVIDER, XML_METADATA, XML_LEVELS, XML_LEVEL)),
+                Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", 
+                        XML_PROVIDER, 
+                        XML_METADATA, 
+                        XML_LEVELS, 
+                        XML_LEVEL)),
                 XML_MESSAGE);
 
             PopulateCbChkFilters(
                 cbchkOpcodes,
-                Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", XML_PROVIDER, XML_METADATA, XML_OPCODES, XML_OPCODE)),
+                Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", 
+                        XML_PROVIDER, 
+                        XML_METADATA, 
+                        XML_OPCODES, 
+                        XML_OPCODE)),
                 XML_MESSAGE,
                 XML_NAME);
 
@@ -525,6 +541,10 @@ namespace Explore
                 Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", XML_PROVIDER, XML_METADATA, XML_TASKS, XML_TASK)),
                 XML_MESSAGE,
                 XML_NAME);
+
+            PopulateCbChkTemplateFieldsFilter(
+                cbchkTemplateFields, 
+                Nodes);
         }
 
         private string xnGetText(XmlNode xnNode, string NodeName)
@@ -598,33 +618,23 @@ namespace Explore
                 if (Filter.Tasks != null && !Filter.Tasks.Contains(TaskName))
                     continue;
 
+                string Message = xnGetText(xnEvent, XML_MESSAGE);
+                if (!string.IsNullOrEmpty(Filter.Message) && Message.IndexOf(Filter.Message, StringComparison.OrdinalIgnoreCase) == -1)
+                    continue;
+
+                string Template = xnGetText(xnEvent, XML_TEMPLATE);
+                var FieldsArray = GetProviderTemplateFields(Template);
+                if (Filter.TemplateFields != null)
+                {
+                    var AllFields = new HashSet<string>(FieldsArray);
+                    if (!Filter.TemplateFields.IsSubsetOf(AllFields))
+                        continue;
+                }
+
                 string Id = xnGetText(xnEvent, XML_ID);
 
                 string Keyword = xnGetText(xnEvent, XML_KEYWORD);
-                string Message = xnGetText(xnEvent, XML_MESSAGE);
-                string Template = xnGetText(xnEvent, XML_TEMPLATE);
-                string Fields = "";
-
-                try
-                {
-                    Template = Template.Trim();
-                    if (!string.IsNullOrEmpty(Template))
-                    {
-                        XmlDocument xd = new XmlDocument();
-                        xd.LoadXml(Template);
-
-                        List<string> aFields = new List<string>();
-                        foreach (XmlNode xnField in xd.DocumentElement.SelectNodes("*"))
-                            aFields.Add((xnField.Name == "struct" ? "s:" : "") + xnField.GetAttrValue("name"));
-
-                        Fields = string.Join(",", aFields);
-                    }
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+                string Fields = string.Join(",", FieldsArray);
 
                 var lvi = new ListViewItem(Id);
                 lvi.Tag = xnEvent;
@@ -648,28 +658,37 @@ namespace Explore
         private void GetProviderMetadataFilter(ref ProviderMetadataFilter Filter)
         {
             GetCbChkSelections(
-                cbchkChannels, 
+                cbchkChannels,
                 out Filter.Channels);
             GetCbChkSelections(
-                cbchkTasks, 
+                cbchkTasks,
                 out Filter.Tasks);
             GetCbChkSelections(
-                cbchkOpcodes, 
+                cbchkOpcodes,
                 out Filter.Opcodes);
             GetCbChkSelections(
-                cbchkLevels, 
+                cbchkLevels,
                 out Filter.Levels);
+            GetCbChkSelections(
+                cbchkTemplateFields,
+                out Filter.TemplateFields);
+            GetCbChkSelections(
+                cbchkTemplateFields,
+                out Filter.TemplateFields);
+
+            Filter.Message = txtProviderFilterText.Text;
         }
 
         public void PopulateCbChkFilters(
-            PresentationControls.CheckBoxComboBox CbChk, 
-            XmlNodeList Nodes, 
+            PresentationControls.CheckBoxComboBox CbChk,
+            XmlNodeList Nodes,
             string NodeName,
             string SecondaryNodeName = null)
         {
             CbChk.BeginUpdate();
             CbChk.CheckBoxItems.Clear();
             CbChk.Clear();
+
             foreach (XmlNode xnNode in Nodes)
             {
                 string Str = xnGetText(xnNode, NodeName);
@@ -678,6 +697,32 @@ namespace Explore
 
                 if (!string.IsNullOrEmpty(Str))
                     CbChk.Items.Add(Str);
+            }
+            CbChk.Text = "";
+            CbChk.EndUpdate();
+        }
+
+        public void PopulateCbChkTemplateFieldsFilter(
+            PresentationControls.CheckBoxComboBox CbChk,
+            XmlNode xnProvider)
+        {
+            CbChk.BeginUpdate();
+            CbChk.CheckBoxItems.Clear();
+            CbChk.Clear();
+
+            var AllFields = new HashSet<string>();
+            foreach (XmlNode xnTemplate in xnProvider.SelectNodes(string.Format("{0}/{1}/{2}/{3}", XML_PROVIDER, XML_EVENT_METADATA, XML_EVENT, XML_TEMPLATE)))
+            {
+                foreach (string Field in GetProviderTemplateFields(xnTemplate.InnerText))
+                    AllFields.Add(Field);
+            }
+
+            var SortedFields = new List<string>(AllFields);
+            SortedFields.Sort();
+            foreach (string Field in SortedFields)
+            {
+                if (!string.IsNullOrEmpty(Field))
+                    CbChk.Items.Add(Field);
             }
             CbChk.Text = "";
             CbChk.EndUpdate();
@@ -698,7 +743,7 @@ namespace Explore
         }
 
         private void lvProviders_DoubleClick(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             if (lvProviders.SelectedItems.Count == 0)
@@ -711,7 +756,7 @@ namespace Explore
 
             string ProviderName = lvi.Tag as string;
             ComputeProviderMetadata(
-                ProviderName, 
+                ProviderName,
                 out LastMetadataFilter.Nodes);
 
             GetProviderMetadataFilter(ref LastMetadataFilter);
@@ -748,7 +793,7 @@ namespace Explore
         }
 
         private void btnProvFilterApply_Click(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             if (LastMetadataFilter == null)
@@ -759,17 +804,16 @@ namespace Explore
         }
 
         private void ctxmenuitemProvMetaInfo_Click(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             XmlNode xnEvent = lvProviderMetadata.SelectedItems[0].Tag as XmlNode;
-            //XmlNode xnTemplate = xnEvent.SelectSingleNode(XML_TEMPLATE);
             if (xnEvent != null)
                 MsgBoxInfo(xnGetText(xnEvent, XML_TEMPLATE));
         }
 
         private void lvProviders_KeyPress(
-            object sender, 
+            object sender,
             KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
@@ -777,7 +821,7 @@ namespace Explore
         }
 
         private void menuMainHelpAbout_Click(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             MsgBoxInfo(string.Format(
@@ -792,7 +836,7 @@ namespace Explore
         }
 
         private void menuMainFileClearCache_Click(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             try
@@ -803,6 +847,68 @@ namespace Explore
             {
             }
             InitPathes();
+        }
+
+        private string[] GetProviderTemplateFields(string Template)
+        {
+            Template = Template.Trim();
+            if (!string.IsNullOrEmpty(Template))
+            {
+                try
+                {
+                    XmlDocument xd = new XmlDocument();
+                    xd.LoadXml(Template);
+
+                    List<string> aFields = new List<string>();
+                    foreach (XmlNode xnField in xd.DocumentElement.SelectNodes("*"))
+                        aFields.Add((xnField.Name == "struct" ? "s:" : "") + xnField.GetAttrValue("name"));
+
+                    return aFields.ToArray();
+                }
+                catch
+                {
+                }
+            }
+            return new string[] { };
+        }
+
+        private void ctxmenuitemProvMetaCopyID_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Clipboard.Clear();
+            Clipboard.SetText(string.Join(",", GetSelectedColumnValues(lvProviderMetadata, 0)));
+        }
+
+        private List<string> GetSelectedColumnValues(
+            ListView LV, 
+            int ColID)
+        {
+            var Result = new List<string>();
+            foreach (ListViewItem lvi in LV.SelectedItems)
+                Result.Add(lvi.SubItems[ColID].Text);
+
+            return Result;
+        }
+
+        private void ctxmenuitemProvMetaCopyIDAsCase_Click(
+            object sender, 
+            EventArgs e)
+        {
+            var IDs = GetSelectedColumnValues(lvProviderMetadata, 0);
+            for (int i = 0, c = IDs.Count; i < c; i++)
+                IDs[i] = "case " + IDs[i] + ":";
+
+            Clipboard.Clear();
+            Clipboard.SetText(string.Join("\n", IDs));
+        }
+
+        private void ctxmenuProviderCopyName_Click(
+            object sender, 
+            EventArgs e)
+        {
+            Clipboard.Clear();
+            Clipboard.SetText(string.Join(",", GetSelectedColumnValues(lvProviders, 1)));
         }
     }
 }
