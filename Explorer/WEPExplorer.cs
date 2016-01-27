@@ -32,6 +32,7 @@
 * 01/26/2016 - Added Template fields filter
 *            - Implemented Message content filter
 *            - Implemented "Copy provider name", "IDs", and "IDs as case" functionalities
+* 01/27/2016 - Added "Delete" context menu to the provider metadata list. This will help filtering the output.
 */
 using WEPExplorer;
 using System;
@@ -45,6 +46,16 @@ namespace Explore
 {
     public partial class WEPExplorer : Form
     {
+        [Flags]
+        public enum CtxMenuFlags: int
+        {
+            Delete = 0x01,
+            Find = 0x02,
+            Export = 0x04,
+            All = 0xff,
+            AllNoDelete = All & ~Delete,
+        }
+
         #region XML consts
         public const string XML_CHANNEL = "Channel";
         public const string XML_CHANNELS = "Channels";
@@ -130,12 +141,13 @@ namespace Explore
         #region Common UI
         private ContextMenuTag CreateCommonMenuItems(
             ContextMenuStrip Menu,
-            ListView LV)
+            ListView LV,
+            CtxMenuFlags MFlags = CtxMenuFlags.All)
         {
             // FindFirst
             var FindFirst = new ToolStripMenuItem()
             {
-                ShortcutKeys = ((Keys)((Keys.Control | System.Windows.Forms.Keys.F))),
+                ShortcutKeys = (Keys.Control | System.Windows.Forms.Keys.F),
                 Size = new System.Drawing.Size(202, 22),
                 Text = "Find",
             };
@@ -144,15 +156,15 @@ namespace Explore
             // FindNext
             var FindNext = new ToolStripMenuItem()
             {
-                ShortcutKeys = System.Windows.Forms.Keys.F3,
+                ShortcutKeys = Keys.F3,
                 Size = new System.Drawing.Size(202, 22),
                 Text = "Find Next",
             };
-            FindNext.Click += new System.EventHandler(this.menuCommonLVFindNext_Click);
+            FindNext.Click += new EventHandler(menuCommonLVFindNext_Click);
 
             var CopyItem = new ToolStripMenuItem()
             {
-                ShortcutKeys = ((Keys)((Keys.Control | Keys.C))),
+                ShortcutKeys = (Keys.Control | Keys.C),
                 Size = new System.Drawing.Size(202, 22),
                 Text = "Copy"
             };
@@ -174,16 +186,47 @@ namespace Explore
             };
             ExportToTextFile.Click += new EventHandler(menuCommonLVExportToTextFile_Click);
 
+            var Delete = new ToolStripMenuItem()
+            {
+                ShortcutKeys = Keys.Delete,
+                Size = new System.Drawing.Size(202, 22),
+                Text = "Delete"
+            };
+            Delete.Click += new EventHandler(menuCommonLVDeleteItem_Click);
+
+            if (MFlags.HasFlag(CtxMenuFlags.Find))
+            {
+                Menu.Items.AddRange(new ToolStripItem[]
+                {
+                    new ToolStripSeparator(),
+                    FindFirst,
+                    FindNext,
+                });
+            }
+
+            if (MFlags.HasFlag(CtxMenuFlags.Delete))
+            {
+                Menu.Items.AddRange(new ToolStripItem[]
+                {
+                    new ToolStripSeparator(),
+                    Delete
+                });
+            }
+
+            if (MFlags.HasFlag(CtxMenuFlags.Export))
+            {
+                Menu.Items.AddRange(new ToolStripItem[]
+                {
+                    new ToolStripSeparator(),
+                    ExportToTextFile
+                });
+            }
+
             Menu.Items.AddRange(new ToolStripItem[]
             {
                 new ToolStripSeparator(),
-                FindFirst,
-                FindNext,
-                new ToolStripSeparator(),
                 CopyItem,
                 SelectAll,
-                new ToolStripSeparator(),
-                ExportToTextFile
             });
 
             // Install column sorter
@@ -215,6 +258,21 @@ namespace Explore
 
             Clipboard.Clear();
             Clipboard.SetText(sb.ToString());
+        }
+
+        private void menuCommonLVDeleteItem_Click(
+            object sender,
+            EventArgs e)
+        {
+            var lvCtx = GetCommonLVContext(sender);
+            if (lvCtx == null)
+                return;
+
+            lvCtx.lv.BeginUpdate();
+            foreach (ListViewItem lvi in lvCtx.lv.SelectedItems)
+                lvCtx.lv.Items.Remove(lvi);
+
+            lvCtx.lv.EndUpdate();
         }
 
         private void lvCommon_ColumnClick(
@@ -267,7 +325,6 @@ namespace Explore
             string str = InputString(lvCtx.FindString, "Find");
             if (string.IsNullOrEmpty(str))
                 return;
-
 
             lvCtx.SearchPos = 0;
             lvCtx.FindString = str;
@@ -430,16 +487,18 @@ namespace Explore
             EventArgs e)
         {
             CreateCommonMenuItems(
-                ctxmenuProvMetadata,
-                lvProviderMetadata);
-
-            CreateCommonMenuItems(
                 ctxmenuProviders,
-                lvProviders);
+                lvProviders,
+                CtxMenuFlags.AllNoDelete);
 
             CreateCommonMenuItems(
                 ctxmenuProvKeywords,
-                lvProviderKeywords);
+                lvProviderKeywords,
+                CtxMenuFlags.AllNoDelete);
+
+            CreateCommonMenuItems(
+                ctxmenuProvMetadata,
+                lvProviderMetadata);
 
             // Populate providers
             LastProvidersFilter = new ProvidersFilter();
