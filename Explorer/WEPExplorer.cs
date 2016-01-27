@@ -33,6 +33,8 @@
 *            - Implemented Message content filter
 *            - Implemented "Copy provider name", "IDs", and "IDs as case" functionalities
 * 01/27/2016 - Added "Delete" context menu to the provider metadata list. This will help filtering the output.
+*            - Added keyboard shortcuts
+*            - More filter options for the provider template fields
 */
 using WEPExplorer;
 using System;
@@ -131,6 +133,7 @@ namespace Explore
             public HashSet<string> Levels;
             public HashSet<string> Opcodes;
             public HashSet<string> TemplateFields;
+            public int TemplateFieldCondition; // 0 = ALL, 1 = ANYOF
             public string Message;
         }
 
@@ -486,6 +489,8 @@ namespace Explore
             object sender,
             EventArgs e)
         {
+            cbProviderMetadataTemplateFieldsMatchCondition.SelectedIndex = 0;
+
             CreateCommonMenuItems(
                 ctxmenuProviders,
                 lvProviders,
@@ -615,15 +620,20 @@ namespace Explore
                 return xn.InnerText;
         }
 
-        private void txtProviderNameFilter_TextChanged(
-            object sender,
-            EventArgs e)
+        private void ApplyProviderNameFilter()
         {
             if (LastProvidersFilter == null)
                 return;
 
             LastProvidersFilter.ProviderName = txtProviderNameFilter.Text;
             PopulateProviders(LastProvidersFilter);
+        }
+
+        private void txtProviderNameFilter_TextChanged(
+            object sender,
+            EventArgs e)
+        {
+            ApplyProviderNameFilter();
         }
 
         private void PopulateProviders(ProvidersFilter Filter)
@@ -686,8 +696,18 @@ namespace Explore
                 if (Filter.TemplateFields != null)
                 {
                     var AllFields = new HashSet<string>(FieldsArray);
-                    if (!Filter.TemplateFields.IsSubsetOf(AllFields))
-                        continue;
+                    // ALL? All the fields should be a subset
+                    if (Filter.TemplateFieldCondition == 0)
+                    {
+                        if (!Filter.TemplateFields.IsSubsetOf(AllFields))
+                            continue;
+                    }
+                    // ANYOF? At least one filter member belongs in AllFields
+                    else if (Filter.TemplateFieldCondition == 1)
+                    {
+                        if (!Filter.TemplateFields.Overlaps(AllFields))
+                            continue;
+                    }
                 }
 
                 string Id = xnGetText(xnEvent, XML_ID);
@@ -735,6 +755,7 @@ namespace Explore
                 cbchkTemplateFields,
                 out Filter.TemplateFields);
 
+            Filter.TemplateFieldCondition = cbProviderMetadataTemplateFieldsMatchCondition.SelectedIndex;
             Filter.Message = txtProviderFilterText.Text;
         }
 
@@ -801,9 +822,7 @@ namespace Explore
             ItemsText = set.Count > 0 ? set : null;
         }
 
-        private void lvProviders_DoubleClick(
-            object sender,
-            EventArgs e)
+        private void PopulateSelectedProviderInfo()
         {
             if (lvProviders.SelectedItems.Count == 0)
                 return;
@@ -828,6 +847,13 @@ namespace Explore
 
             gbProviderMetadata.Text = "Provider metadata - " + ProviderName;
             gbProviderFilters.Text = "Provider filters - " + ProviderName;
+        }
+
+        private void lvProviders_DoubleClick(
+            object sender,
+            EventArgs e)
+        {
+            PopulateSelectedProviderInfo();
         }
 
         private void PopulateProviderMetadataKeywords(XmlNode Nodes)
@@ -856,7 +882,7 @@ namespace Explore
             EventArgs e)
         {
             if (LastMetadataFilter == null)
-                lvProviders_DoubleClick(lvProviders, e);
+                PopulateSelectedProviderInfo();
 
             GetProviderMetadataFilter(ref LastMetadataFilter);
             PopulateProviderMetadata(LastMetadataFilter);
@@ -876,7 +902,7 @@ namespace Explore
             KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
-                lvProviders_DoubleClick(sender, e);
+                PopulateSelectedProviderInfo();
         }
 
         private void menuMainHelpAbout_Click(
@@ -968,6 +994,22 @@ namespace Explore
         {
             Clipboard.Clear();
             Clipboard.SetText(string.Join(",", GetSelectedColumnValues(lvProviders, 1)));
+        }
+
+        private void txtProviderNameFilter_KeyUp(
+            object sender, 
+            KeyEventArgs e)
+        {
+            if (e.KeyValue == 13)
+            {
+                e.Handled = true;
+                lvProviders.Focus();
+                if (lvProviders.Items.Count > 0)
+                {
+                    lvProviders.Items[0].Selected = true;
+                    PopulateSelectedProviderInfo();
+                }
+            }
         }
     }
 }

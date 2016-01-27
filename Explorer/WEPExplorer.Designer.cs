@@ -37,6 +37,7 @@
             PresentationControls.CheckBoxProperties checkBoxProperties5 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WEPExplorer));
             this.gbProviderFilters = new System.Windows.Forms.GroupBox();
+            this.cbProviderMetadataTemplateFieldsMatchCondition = new System.Windows.Forms.ComboBox();
             this.cbchkTemplateFields = new PresentationControls.CheckBoxComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbchkTasks = new PresentationControls.CheckBoxComboBox();
@@ -57,7 +58,7 @@
             this.lvcKeywordsMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtProviderNameFilter = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblProviderName = new System.Windows.Forms.Label();
             this.lvProviders = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -102,6 +103,7 @@
             // 
             // gbProviderFilters
             // 
+            this.gbProviderFilters.Controls.Add(this.cbProviderMetadataTemplateFieldsMatchCondition);
             this.gbProviderFilters.Controls.Add(this.cbchkTemplateFields);
             this.gbProviderFilters.Controls.Add(this.label7);
             this.gbProviderFilters.Controls.Add(this.cbchkTasks);
@@ -118,9 +120,21 @@
             this.gbProviderFilters.Location = new System.Drawing.Point(7, 209);
             this.gbProviderFilters.Name = "gbProviderFilters";
             this.gbProviderFilters.Size = new System.Drawing.Size(460, 225);
-            this.gbProviderFilters.TabIndex = 7;
+            this.gbProviderFilters.TabIndex = 2;
             this.gbProviderFilters.TabStop = false;
             this.gbProviderFilters.Text = "Provider filters";
+            // 
+            // cbProviderMetadataTemplateFieldsMatchCondition
+            // 
+            this.cbProviderMetadataTemplateFieldsMatchCondition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbProviderMetadataTemplateFieldsMatchCondition.FormattingEnabled = true;
+            this.cbProviderMetadataTemplateFieldsMatchCondition.Items.AddRange(new object[] {
+            "ALL",
+            "ANYOF"});
+            this.cbProviderMetadataTemplateFieldsMatchCondition.Location = new System.Drawing.Point(350, 135);
+            this.cbProviderMetadataTemplateFieldsMatchCondition.Name = "cbProviderMetadataTemplateFieldsMatchCondition";
+            this.cbProviderMetadataTemplateFieldsMatchCondition.Size = new System.Drawing.Size(104, 21);
+            this.cbProviderMetadataTemplateFieldsMatchCondition.TabIndex = 10;
             // 
             // cbchkTemplateFields
             // 
@@ -132,8 +146,8 @@
             this.cbchkTemplateFields.FormattingEnabled = true;
             this.cbchkTemplateFields.Location = new System.Drawing.Point(83, 135);
             this.cbchkTemplateFields.Name = "cbchkTemplateFields";
-            this.cbchkTemplateFields.Size = new System.Drawing.Size(371, 21);
-            this.cbchkTemplateFields.TabIndex = 21;
+            this.cbchkTemplateFields.Size = new System.Drawing.Size(261, 21);
+            this.cbchkTemplateFields.TabIndex = 9;
             // 
             // label7
             // 
@@ -141,7 +155,7 @@
             this.label7.Location = new System.Drawing.Point(5, 138);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(81, 13);
-            this.label7.TabIndex = 20;
+            this.label7.TabIndex = 8;
             this.label7.Text = "Template fields:";
             // 
             // cbchkTasks
@@ -155,7 +169,7 @@
             this.cbchkTasks.Location = new System.Drawing.Point(83, 106);
             this.cbchkTasks.Name = "cbchkTasks";
             this.cbchkTasks.Size = new System.Drawing.Size(371, 21);
-            this.cbchkTasks.TabIndex = 19;
+            this.cbchkTasks.TabIndex = 7;
             // 
             // label6
             // 
@@ -163,7 +177,7 @@
             this.label6.Location = new System.Drawing.Point(9, 109);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(39, 13);
-            this.label6.TabIndex = 18;
+            this.label6.TabIndex = 6;
             this.label6.Text = "Tasks:";
             // 
             // btnProvFilterApply
@@ -171,7 +185,7 @@
             this.btnProvFilterApply.Location = new System.Drawing.Point(83, 192);
             this.btnProvFilterApply.Name = "btnProvFilterApply";
             this.btnProvFilterApply.Size = new System.Drawing.Size(129, 23);
-            this.btnProvFilterApply.TabIndex = 17;
+            this.btnProvFilterApply.TabIndex = 13;
             this.btnProvFilterApply.Text = "&Apply";
             this.btnProvFilterApply.UseVisualStyleBackColor = true;
             this.btnProvFilterApply.Click += new System.EventHandler(this.btnProvFilterApply_Click);
@@ -183,7 +197,7 @@
             this.txtProviderFilterText.Location = new System.Drawing.Point(83, 163);
             this.txtProviderFilterText.Name = "txtProviderFilterText";
             this.txtProviderFilterText.Size = new System.Drawing.Size(371, 20);
-            this.txtProviderFilterText.TabIndex = 16;
+            this.txtProviderFilterText.TabIndex = 12;
             // 
             // label5
             // 
@@ -191,7 +205,7 @@
             this.label5.Location = new System.Drawing.Point(8, 166);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
-            this.label5.TabIndex = 15;
+            this.label5.TabIndex = 11;
             this.label5.Text = "Message has:";
             // 
             // cbchkOpcodes
@@ -205,7 +219,7 @@
             this.cbchkOpcodes.Location = new System.Drawing.Point(83, 79);
             this.cbchkOpcodes.Name = "cbchkOpcodes";
             this.cbchkOpcodes.Size = new System.Drawing.Size(371, 21);
-            this.cbchkOpcodes.TabIndex = 14;
+            this.cbchkOpcodes.TabIndex = 5;
             // 
             // cbchkLevels
             // 
@@ -218,7 +232,7 @@
             this.cbchkLevels.Location = new System.Drawing.Point(83, 52);
             this.cbchkLevels.Name = "cbchkLevels";
             this.cbchkLevels.Size = new System.Drawing.Size(371, 21);
-            this.cbchkLevels.TabIndex = 13;
+            this.cbchkLevels.TabIndex = 3;
             // 
             // cbchkChannels
             // 
@@ -231,7 +245,7 @@
             this.cbchkChannels.Location = new System.Drawing.Point(83, 23);
             this.cbchkChannels.Name = "cbchkChannels";
             this.cbchkChannels.Size = new System.Drawing.Size(371, 21);
-            this.cbchkChannels.TabIndex = 12;
+            this.cbchkChannels.TabIndex = 1;
             // 
             // label3
             // 
@@ -239,7 +253,7 @@
             this.label3.Location = new System.Drawing.Point(9, 82);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
-            this.label3.TabIndex = 10;
+            this.label3.TabIndex = 4;
             this.label3.Text = "Opcodes:";
             // 
             // label2
@@ -248,7 +262,7 @@
             this.label2.Location = new System.Drawing.Point(9, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 13);
-            this.label2.TabIndex = 7;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Levels:";
             // 
             // label1
@@ -257,8 +271,8 @@
             this.label1.Location = new System.Drawing.Point(9, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Channels:";
+            this.label1.TabIndex = 0;
+            this.label1.Text = "&Channels:";
             // 
             // gbProviderKeywords
             // 
@@ -268,7 +282,7 @@
             this.gbProviderKeywords.Location = new System.Drawing.Point(470, 209);
             this.gbProviderKeywords.Name = "gbProviderKeywords";
             this.gbProviderKeywords.Size = new System.Drawing.Size(390, 225);
-            this.gbProviderKeywords.TabIndex = 8;
+            this.gbProviderKeywords.TabIndex = 3;
             this.gbProviderKeywords.TabStop = false;
             this.gbProviderKeywords.Text = "Keywords";
             // 
@@ -284,7 +298,7 @@
             this.lvProviderKeywords.MultiSelect = false;
             this.lvProviderKeywords.Name = "lvProviderKeywords";
             this.lvProviderKeywords.Size = new System.Drawing.Size(384, 206);
-            this.lvProviderKeywords.TabIndex = 7;
+            this.lvProviderKeywords.TabIndex = 0;
             this.lvProviderKeywords.UseCompatibleStateImageBehavior = false;
             this.lvProviderKeywords.View = System.Windows.Forms.View.Details;
             // 
@@ -307,12 +321,12 @@
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.txtProviderNameFilter);
-            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.lblProviderName);
             this.groupBox3.Controls.Add(this.lvProviders);
             this.groupBox3.Location = new System.Drawing.Point(7, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(859, 191);
-            this.groupBox3.TabIndex = 9;
+            this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Providers";
             // 
@@ -323,17 +337,18 @@
             this.txtProviderNameFilter.Location = new System.Drawing.Point(87, 19);
             this.txtProviderNameFilter.Name = "txtProviderNameFilter";
             this.txtProviderNameFilter.Size = new System.Drawing.Size(766, 20);
-            this.txtProviderNameFilter.TabIndex = 10;
+            this.txtProviderNameFilter.TabIndex = 1;
             this.txtProviderNameFilter.TextChanged += new System.EventHandler(this.txtProviderNameFilter_TextChanged);
+            this.txtProviderNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtProviderNameFilter_KeyUp);
             // 
-            // label4
+            // lblProviderName
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 22);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(78, 13);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Provider name:";
+            this.lblProviderName.AutoSize = true;
+            this.lblProviderName.Location = new System.Drawing.Point(3, 22);
+            this.lblProviderName.Name = "lblProviderName";
+            this.lblProviderName.Size = new System.Drawing.Size(78, 13);
+            this.lblProviderName.TabIndex = 0;
+            this.lblProviderName.Text = "&Provider name:";
             // 
             // lvProviders
             // 
@@ -347,7 +362,7 @@
             this.lvProviders.Location = new System.Drawing.Point(3, 45);
             this.lvProviders.Name = "lvProviders";
             this.lvProviders.Size = new System.Drawing.Size(850, 140);
-            this.lvProviders.TabIndex = 8;
+            this.lvProviders.TabIndex = 2;
             this.lvProviders.UseCompatibleStateImageBehavior = false;
             this.lvProviders.View = System.Windows.Forms.View.Details;
             this.lvProviders.DoubleClick += new System.EventHandler(this.lvProviders_DoubleClick);
@@ -372,7 +387,7 @@
             this.gbProviderMetadata.Location = new System.Drawing.Point(7, 440);
             this.gbProviderMetadata.Name = "gbProviderMetadata";
             this.gbProviderMetadata.Size = new System.Drawing.Size(853, 301);
-            this.gbProviderMetadata.TabIndex = 10;
+            this.gbProviderMetadata.TabIndex = 4;
             this.gbProviderMetadata.TabStop = false;
             this.gbProviderMetadata.Text = "Provider metadata";
             // 
@@ -392,7 +407,7 @@
             this.lvProviderMetadata.Location = new System.Drawing.Point(3, 16);
             this.lvProviderMetadata.Name = "lvProviderMetadata";
             this.lvProviderMetadata.Size = new System.Drawing.Size(847, 282);
-            this.lvProviderMetadata.TabIndex = 7;
+            this.lvProviderMetadata.TabIndex = 0;
             this.lvProviderMetadata.UseCompatibleStateImageBehavior = false;
             this.lvProviderMetadata.View = System.Windows.Forms.View.Details;
             // 
@@ -492,7 +507,7 @@
             this.menuMain.Location = new System.Drawing.Point(0, 0);
             this.menuMain.Name = "menuMain";
             this.menuMain.Size = new System.Drawing.Size(865, 24);
-            this.menuMain.TabIndex = 11;
+            this.menuMain.TabIndex = 0;
             this.menuMain.Text = "menuStrip2";
             // 
             // fileToolStripMenuItem
@@ -551,7 +566,7 @@
             this.Controls.Add(this.gbProviderFilters);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WEPExplorer";
-            this.Text = "Windows Events Providers Explorer - v1.1";
+            this.Text = "Windows Events Providers Explorer - v1.1.1";
             this.Load += new System.EventHandler(this.WEPExplorerForm_Load);
             this.gbProviderFilters.ResumeLayout(false);
             this.gbProviderFilters.PerformLayout();
@@ -584,7 +599,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TextBox txtProviderNameFilter;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblProviderName;
         private System.Windows.Forms.GroupBox gbProviderMetadata;
         private System.Windows.Forms.ListView lvProviderMetadata;
         private System.Windows.Forms.ColumnHeader lvcProvMetadataId;
@@ -619,6 +634,7 @@
         private System.Windows.Forms.ToolStripMenuItem ctxmenuitemProvMetaCopyID;
         private System.Windows.Forms.ToolStripMenuItem ctxmenuitemProvMetaCopyIDAsCase;
         private System.Windows.Forms.ToolStripMenuItem ctxmenuProviderCopyName;
+        private System.Windows.Forms.ComboBox cbProviderMetadataTemplateFieldsMatchCondition;
     }
 }
 
