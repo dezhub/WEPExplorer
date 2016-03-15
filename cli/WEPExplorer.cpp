@@ -456,7 +456,13 @@ DWORD CProvidersExplorer::DumpEventProperties(EVT_HANDLE hEvent)
                 {
                     pProperty = pTemp;
                     pTemp = NULL;
-                    EvtGetEventMetadataProperty(hEvent, (EVT_EVENT_METADATA_PROPERTY_ID)Id, 0, dwBufferSize, pProperty, &dwBufferUsed);
+                    EvtGetEventMetadataProperty(
+                        hEvent, 
+                        (EVT_EVENT_METADATA_PROPERTY_ID)Id, 
+                        0, 
+                        dwBufferSize, 
+                        pProperty, 
+                        &dwBufferUsed);
                 }
                 else
                 {
@@ -627,7 +633,9 @@ DWORD CProvidersExplorer::DumpEventProperty(
         case EventMetadataEventMessageID:
             if (pProperty->UInt32Val != -1)
             {
-                pMessage = GetMessageString(hMetadata, pProperty->UInt32Val);
+                pMessage = GetMessageString(
+                    hMetadata, 
+                    pProperty->UInt32Val);
                 if (pMessage != nullptr)
                 {
                     m_Out->TagCData(XML_MESSAGE, pMessage);
@@ -2082,6 +2090,8 @@ int _tmain(int argc, TCHAR *argv[])
     COptions opt;
     wchar_t *errmsg;
 
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
     int err = ParseOptions(
         argc, 
         argv, 
@@ -2115,12 +2125,14 @@ int _tmain(int argc, TCHAR *argv[])
     std::wofstream ofs;
     if (opt.OutFileName != nullptr)
     {
+        const std::locale utf8_locale = std::locale(std::locale(), new std::codecvt_utf8<wchar_t>());
         ofs.open(opt.OutFileName, std::ofstream::out);
         if (!ofs.is_open())
         {
             wprintf(L"ERROR: could not create output file: %s\n", opt.OutFileName);
             return -1;
         }
+        ofs.imbue(utf8_locale);
     }
 
     CXmlOutput o(opt.OutFileName != nullptr ? ofs : std::wcout);
