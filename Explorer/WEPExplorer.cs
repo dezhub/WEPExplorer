@@ -442,7 +442,9 @@ namespace Explore
             return (FBD.ShowDialog() == DialogResult.OK) ? FBD.SelectedPath : null;
         }
 
-        static private void MsgBoxError(string Message, params string[] args)
+        static private void MsgBoxError(
+            string Message, 
+            params string[] args)
         {
             MessageBox.Show(
                 string.Format(Message, args),
@@ -450,7 +452,9 @@ namespace Explore
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
-        static private void MsgBoxInfo(string Message, params string[] args)
+        static private void MsgBoxInfo(
+            string Message, 
+            params string[] args)
         {
             MessageBox.Show(
                 string.Format(Message, args),
@@ -893,7 +897,18 @@ namespace Explore
         {
             XmlNode xnEvent = lvProviderMetadata.SelectedItems[0].Tag as XmlNode;
             if (xnEvent != null)
-                MsgBoxInfo(xnGetText(xnEvent, XML_TEMPLATE));
+            {
+                MsgBoxInfo(
+                    "--------\n" +
+                    "Message:\n" +
+                    "--------\n" +
+                    xnGetText(xnEvent, XML_MESSAGE) + "\n" +
+                    "\n" +
+                    "--------\n" +
+                    "Template:\n" +
+                    "--------\n" +
+                    xnGetText(xnEvent, XML_TEMPLATE));
+            }
         }
 
         private void lvProviders_KeyPress(
