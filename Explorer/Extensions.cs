@@ -151,6 +151,5 @@ namespace Explore
                 lvi.Selected = true;
             lv.EndUpdate();
         }
-
     }
 }

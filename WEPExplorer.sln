@@ -20,6 +20,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{04EBA7A6-1FCD-4683-A64D-776FC53A475C}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{04EBA7A6-1FCD-4683-A64D-776FC53A475C}.Debug|Any CPU.Build.0 = Debug|Win32
 		{04EBA7A6-1FCD-4683-A64D-776FC53A475C}.Debug|x64.ActiveCfg = Debug|x64
 		{04EBA7A6-1FCD-4683-A64D-776FC53A475C}.Debug|x64.Build.0 = Debug|x64
 		{04EBA7A6-1FCD-4683-A64D-776FC53A475C}.Debug|x86.ActiveCfg = Debug|Win32

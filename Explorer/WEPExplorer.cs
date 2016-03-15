@@ -139,7 +139,7 @@ namespace Explore
 
         public ProviderMetadataFilter LastMetadataFilter = null;
         private ProvidersFilter LastProvidersFilter;
-        public const string STR_TITLE = "Windows Events Providers Explorer v1.0";
+        public const string STR_TITLE = "Windows Events Providers Explorer v1.1.1";
 
         #region Common UI
         private ContextMenuTag CreateCommonMenuItems(
@@ -334,6 +334,39 @@ namespace Explore
             menuCommonLVFindNext_Click(sender, e);
         }
 
+        private void menuCommonLVFindNext_Click(
+            object sender,
+            EventArgs e)
+        {
+            var lvCtx = GetCommonLVContext(sender);
+            if (lvCtx == null)
+                return;
+
+            if (string.IsNullOrEmpty(lvCtx.FindString))
+                return;
+
+            for (int i = lvCtx.SearchPos, c = lvCtx.lv.Items.Count; i < c; i++)
+            {
+                ListViewItem lvi = lvCtx.lv.Items[i];
+                foreach (ListViewItem.ListViewSubItem lvsi in lvi.SubItems)
+                {
+                    lvi.Selected = false;
+                    if (lvsi.Text.IndexOf(lvCtx.FindString, StringComparison.OrdinalIgnoreCase) != -1)
+                    {
+                        lvi.Selected = true;
+                        lvi.EnsureVisible();
+                        lvCtx.lv.FocusedItem = lvi;
+
+                        lvCtx.SearchPos = i + 1;
+                        return;
+                    }
+                }
+            }
+
+            // Nothing found, reset search position
+            lvCtx.SearchPos = 0;
+        }
+
         private void menuCommonLVSelectAll_Click(
             object sender,
             EventArgs e)
@@ -341,6 +374,42 @@ namespace Explore
             var lvCtx = GetCommonLVContext(sender);
             if (lvCtx != null)
                 lvCtx.lv.SelectAll();
+        }
+
+        private void menuCommonLVExportToTextFile_Click(
+            object sender,
+            EventArgs e)
+        {
+            var lvCtx = GetCommonLVContext(sender);
+            if (lvCtx == null)
+                return;
+
+            var lv = lvCtx.lv;
+
+            string fn = BrowseForFile(
+                Utils.GetCurrentAsmDirectory(),
+                "",
+                FILTER_TEXT_DefaultExt,
+                FILTER_TEXT_Filter,
+                true);
+            if (string.IsNullOrEmpty(fn))
+                return;
+
+            using (TextWriter Out = new System.IO.StreamWriter(fn, false))
+            {
+                // Write column header
+                foreach (ColumnHeader Cur in lv.Columns)
+                {
+                    Out.Write("\"" + Cur.Text + "\"");
+                    Out.Write("\t");
+                }
+                Out.WriteLine();
+
+                foreach (ListViewItem Item in lv.Items)
+                    Out.WriteLine(Item.GetItemsString());
+
+                Out.Close();
+            }
         }
 
         private static string BrowseForFile(
@@ -390,42 +459,6 @@ namespace Explore
                 MessageBoxIcon.Information);
         }
 
-        private void menuCommonLVExportToTextFile_Click(
-            object sender,
-            EventArgs e)
-        {
-            var lvCtx = GetCommonLVContext(sender);
-            if (lvCtx == null)
-                return;
-
-            var lv = lvCtx.lv;
-
-            string fn = BrowseForFile(
-                Utils.GetCurrentAsmDirectory(),
-                "",
-                FILTER_TEXT_DefaultExt,
-                FILTER_TEXT_Filter,
-                true);
-            if (string.IsNullOrEmpty(fn))
-                return;
-
-            using (TextWriter Out = new System.IO.StreamWriter(fn, false))
-            {
-                // Write column header
-                foreach (ColumnHeader Cur in lv.Columns)
-                {
-                    Out.Write("\"" + Cur.Text + "\"");
-                    Out.Write("\t");
-                }
-                Out.WriteLine();
-
-                foreach (ListViewItem Item in lv.Items)
-                    Out.WriteLine(Item.GetItemsString());
-
-                Out.Close();
-            }
-        }
-
         public static string InputString(
             string DefVal,
             string Title)
@@ -441,40 +474,6 @@ namespace Explore
                 return null;
 
             return input;
-        }
-
-        private void menuCommonLVFindNext_Click(
-            object sender,
-            EventArgs e)
-        {
-            var lvCtx = GetCommonLVContext(sender);
-            if (lvCtx == null)
-                return;
-
-            if (string.IsNullOrEmpty(lvCtx.FindString))
-                return;
-
-
-            for (int i = lvCtx.SearchPos, c = lvCtx.lv.Items.Count; i < c; i++)
-            {
-                ListViewItem lvi = lvCtx.lv.Items[i];
-                foreach (ListViewItem.ListViewSubItem lvsi in lvi.SubItems)
-                {
-                    lvi.Selected = false;
-                    if (lvsi.Text.IndexOf(lvCtx.FindString, StringComparison.OrdinalIgnoreCase) != -1)
-                    {
-                        lvi.Selected = true;
-                        lvi.EnsureVisible();
-                        lvCtx.lv.FocusedItem = lvi;
-
-                        lvCtx.SearchPos = i + 1;
-                        return;
-                    }
-                }
-            }
-
-            // Nothing found, reset search position
-            lvCtx.SearchPos = 0;
         }
         #endregion
 
