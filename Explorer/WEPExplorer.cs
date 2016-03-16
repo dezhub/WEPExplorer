@@ -35,6 +35,9 @@
 * 01/27/2016 - Added "Delete" context menu to the provider metadata list. This will help filtering the output.
 *            - Added keyboard shortcuts
 *            - More filter options for the provider template fields
+* 03/16/2016 - Bumped to version 1.2
+*            - Added name/guid provider filter
+*            - Added Copy provider GUID
 */
 using WEPExplorer;
 using System;
@@ -122,7 +125,7 @@ namespace Explore
         public class ProvidersFilter
         {
             public XmlNode Nodes;
-            public string ProviderName;
+            public string ProviderString;
         }
 
         public class ProviderMetadataFilter
@@ -139,7 +142,7 @@ namespace Explore
 
         public ProviderMetadataFilter LastMetadataFilter = null;
         private ProvidersFilter LastProvidersFilter;
-        public const string STR_TITLE = "Windows Events Providers Explorer v1.1.1";
+        public const string STR_TITLE = "Windows Events Providers Explorer v1.2";
 
         #region Common UI
         private ContextMenuTag CreateCommonMenuItems(
@@ -628,11 +631,11 @@ namespace Explore
             if (LastProvidersFilter == null)
                 return;
 
-            LastProvidersFilter.ProviderName = txtProviderNameFilter.Text;
+            LastProvidersFilter.ProviderString = txtProviderNameGuidFilter.Text;
             PopulateProviders(LastProvidersFilter);
         }
 
-        private void txtProviderNameFilter_TextChanged(
+        private void txtProviderNameGuidFilter_TextChanged(
             object sender,
             EventArgs e)
         {
@@ -644,15 +647,23 @@ namespace Explore
             lvProviders.BeginUpdate();
             lvProviders.Items.Clear();
 
+            bool bHasNameOrGuidFilter = !string.IsNullOrEmpty(Filter.ProviderString);
             foreach (XmlNode xnProv in Filter.Nodes.SelectNodes(string.Format("{0}", XML_PROVIDER)))
             {
+                // Skip empty GUIDs
                 string Guid = xnGetText(xnProv, string.Format("{0}/{1}", XML_METADATA, XML_GUID));
                 if (Guid == STR_NULL_GUID)
                     continue;
 
                 string Name = xnGetText(xnProv, XML_NAME);
-                if (!string.IsNullOrEmpty(Filter.ProviderName) && Name.IndexOf(Filter.ProviderName, StringComparison.OrdinalIgnoreCase) == -1)
+                if (bHasNameOrGuidFilter &&
+                     (     (Name.IndexOf(Filter.ProviderString, StringComparison.OrdinalIgnoreCase) == -1)
+                        && (Guid.IndexOf(Filter.ProviderString, StringComparison.OrdinalIgnoreCase) == -1)
+                     )
+                   )
+                {
                     continue;
+                }
 
                 var lvi = new ListViewItem(Guid);
                 lvi.SubItems.Add(Name);
@@ -1002,15 +1013,17 @@ namespace Explore
             Clipboard.SetText(string.Join("\n", IDs));
         }
 
-        private void ctxmenuProviderCopyName_Click(
+        private void ctxmenuProviderCopyNameOrGuid_Click(
             object sender, 
             EventArgs e)
         {
+            var m = sender as ToolStripMenuItem;
+            int lvCol = m == null || m.Tag.ToString() == "1" ? 1 : 0;
             Clipboard.Clear();
-            Clipboard.SetText(string.Join(",", GetSelectedColumnValues(lvProviders, 1)));
+            Clipboard.SetText(string.Join(",", GetSelectedColumnValues(lvProviders, lvCol)));
         }
 
-        private void txtProviderNameFilter_KeyUp(
+        private void txtProviderGuidNameFilter_KeyUp(
             object sender, 
             KeyEventArgs e)
         {

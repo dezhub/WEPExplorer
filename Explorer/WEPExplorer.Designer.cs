@@ -57,8 +57,8 @@
             this.lvcKeywordsName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvcKeywordsMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtProviderNameFilter = new System.Windows.Forms.TextBox();
-            this.lblProviderName = new System.Windows.Forms.Label();
+            this.txtProviderNameGuidFilter = new System.Windows.Forms.TextBox();
+            this.lblProviderNameGuid = new System.Windows.Forms.Label();
             this.lvProviders = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -79,6 +79,7 @@
             this.ctxmenuitemProvMetaCopyIDAsCase = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxmenuProviders = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxmenuProviderCopyName = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxmenuProviderCopyGuid = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMainFileClearCache = new System.Windows.Forms.ToolStripMenuItem();
@@ -320,8 +321,8 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.txtProviderNameFilter);
-            this.groupBox3.Controls.Add(this.lblProviderName);
+            this.groupBox3.Controls.Add(this.txtProviderNameGuidFilter);
+            this.groupBox3.Controls.Add(this.lblProviderNameGuid);
             this.groupBox3.Controls.Add(this.lvProviders);
             this.groupBox3.Location = new System.Drawing.Point(7, 12);
             this.groupBox3.Name = "groupBox3";
@@ -330,25 +331,25 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Providers";
             // 
-            // txtProviderNameFilter
+            // txtProviderNameGuidFilter
             // 
-            this.txtProviderNameFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtProviderNameGuidFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtProviderNameFilter.Location = new System.Drawing.Point(87, 19);
-            this.txtProviderNameFilter.Name = "txtProviderNameFilter";
-            this.txtProviderNameFilter.Size = new System.Drawing.Size(766, 20);
-            this.txtProviderNameFilter.TabIndex = 1;
-            this.txtProviderNameFilter.TextChanged += new System.EventHandler(this.txtProviderNameFilter_TextChanged);
-            this.txtProviderNameFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtProviderNameFilter_KeyUp);
+            this.txtProviderNameGuidFilter.Location = new System.Drawing.Point(116, 20);
+            this.txtProviderNameGuidFilter.Name = "txtProviderNameGuidFilter";
+            this.txtProviderNameGuidFilter.Size = new System.Drawing.Size(737, 20);
+            this.txtProviderNameGuidFilter.TabIndex = 1;
+            this.txtProviderNameGuidFilter.TextChanged += new System.EventHandler(this.txtProviderNameGuidFilter_TextChanged);
+            this.txtProviderNameGuidFilter.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtProviderGuidNameFilter_KeyUp);
             // 
-            // lblProviderName
+            // lblProviderNameGuid
             // 
-            this.lblProviderName.AutoSize = true;
-            this.lblProviderName.Location = new System.Drawing.Point(3, 22);
-            this.lblProviderName.Name = "lblProviderName";
-            this.lblProviderName.Size = new System.Drawing.Size(78, 13);
-            this.lblProviderName.TabIndex = 0;
-            this.lblProviderName.Text = "&Provider name:";
+            this.lblProviderNameGuid.AutoSize = true;
+            this.lblProviderNameGuid.Location = new System.Drawing.Point(3, 22);
+            this.lblProviderNameGuid.Name = "lblProviderNameGuid";
+            this.lblProviderNameGuid.Size = new System.Drawing.Size(110, 13);
+            this.lblProviderNameGuid.TabIndex = 0;
+            this.lblProviderNameGuid.Text = "&Provider GUID/name:";
             // 
             // lvProviders
             // 
@@ -488,16 +489,26 @@
             // ctxmenuProviders
             // 
             this.ctxmenuProviders.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ctxmenuProviderCopyName});
+            this.ctxmenuProviderCopyName,
+            this.ctxmenuProviderCopyGuid});
             this.ctxmenuProviders.Name = "ctxmenuProvMetadata";
-            this.ctxmenuProviders.Size = new System.Drawing.Size(183, 26);
+            this.ctxmenuProviders.Size = new System.Drawing.Size(183, 48);
             // 
             // ctxmenuProviderCopyName
             // 
             this.ctxmenuProviderCopyName.Name = "ctxmenuProviderCopyName";
             this.ctxmenuProviderCopyName.Size = new System.Drawing.Size(182, 22);
+            this.ctxmenuProviderCopyName.Tag = "1";
             this.ctxmenuProviderCopyName.Text = "Copy provider name";
-            this.ctxmenuProviderCopyName.Click += new System.EventHandler(this.ctxmenuProviderCopyName_Click);
+            this.ctxmenuProviderCopyName.Click += new System.EventHandler(this.ctxmenuProviderCopyNameOrGuid_Click);
+            // 
+            // ctxmenuProviderCopyGuid
+            // 
+            this.ctxmenuProviderCopyGuid.Name = "ctxmenuProviderCopyGuid";
+            this.ctxmenuProviderCopyGuid.Size = new System.Drawing.Size(182, 22);
+            this.ctxmenuProviderCopyGuid.Tag = "2";
+            this.ctxmenuProviderCopyGuid.Text = "Copy provider GUID";
+            this.ctxmenuProviderCopyGuid.Click += new System.EventHandler(this.ctxmenuProviderCopyNameOrGuid_Click);
             // 
             // menuMain
             // 
@@ -566,7 +577,7 @@
             this.Controls.Add(this.gbProviderFilters);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WEPExplorer";
-            this.Text = "Windows Events Providers Explorer - v1.1.1";
+            this.Text = "Windows Events Providers Explorer - v1.2";
             this.Load += new System.EventHandler(this.WEPExplorerForm_Load);
             this.gbProviderFilters.ResumeLayout(false);
             this.gbProviderFilters.PerformLayout();
@@ -598,8 +609,8 @@
         private System.Windows.Forms.ListView lvProviders;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.TextBox txtProviderNameFilter;
-        private System.Windows.Forms.Label lblProviderName;
+        private System.Windows.Forms.TextBox txtProviderNameGuidFilter;
+        private System.Windows.Forms.Label lblProviderNameGuid;
         private System.Windows.Forms.GroupBox gbProviderMetadata;
         private System.Windows.Forms.ListView lvProviderMetadata;
         private System.Windows.Forms.ColumnHeader lvcProvMetadataId;
@@ -635,6 +646,7 @@
         private System.Windows.Forms.ToolStripMenuItem ctxmenuitemProvMetaCopyIDAsCase;
         private System.Windows.Forms.ToolStripMenuItem ctxmenuProviderCopyName;
         private System.Windows.Forms.ComboBox cbProviderMetadataTemplateFieldsMatchCondition;
+        private System.Windows.Forms.ToolStripMenuItem ctxmenuProviderCopyGuid;
     }
 }
 
