@@ -306,6 +306,7 @@
             // lvcKeywordsValue
             // 
             this.lvcKeywordsValue.Text = "Value";
+            this.lvcKeywordsValue.Width = 90;
             // 
             // lvcKeywordsName
             // 

@@ -38,6 +38,7 @@
 * 03/16/2016 - Bumped to version 1.2
 *            - Added name/guid provider filter
 *            - Added Copy provider GUID
+* 03/17/2016 - Format Keyword flag as hexadecimal
 */
 using WEPExplorer;
 using System;
@@ -876,7 +877,11 @@ namespace Explore
             lvProviderKeywords.Items.Clear();
             foreach (XmlNode xnKeyword in Nodes.SelectNodes(string.Format("{0}/{1}/{2}/{3}", XML_PROVIDER, XML_METADATA, XML_KEYWORDS, XML_KEYWORD)))
             {
+                long xVal;
                 string Val = xnGetText(xnKeyword, XML_VALUE);
+                if (long.TryParse(Val, out xVal))
+                    Val = string.Format("{0:X8}", xVal);
+
                 string Message = xnGetText(xnKeyword, XML_MESSAGE);
                 string Name = xnGetText(xnKeyword, XML_NAME);
 
