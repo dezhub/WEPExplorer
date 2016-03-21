@@ -39,6 +39,15 @@
 *            - Added name/guid provider filter
 *            - Added Copy provider GUID
 * 03/17/2016 - Format Keyword flag as hexadecimal
+* 03/20/2016 - v1.2.1
+*            - Added Keywords listview / "Copy Flags"
+*
+TODO
+------
+
+- Start using FluentLib.NET instead
+- Investigate how to improve the cli utility, I feel it is blocked / has bugs or missing information.
+
 */
 using WEPExplorer;
 using System;
@@ -143,7 +152,7 @@ namespace Explore
 
         public ProviderMetadataFilter LastMetadataFilter = null;
         private ProvidersFilter LastProvidersFilter;
-        public const string STR_TITLE = "Windows Events Providers Explorer v1.2";
+        public const string STR_TITLE = "Windows Events Providers Explorer - v1.2.1 - lallouslab.net";
 
         #region Common UI
         private ContextMenuTag CreateCommonMenuItems(
@@ -496,6 +505,8 @@ namespace Explore
             object sender,
             EventArgs e)
         {
+            Text = STR_TITLE;
+
             cbProviderMetadataTemplateFieldsMatchCondition.SelectedIndex = 0;
 
             CreateCommonMenuItems(
@@ -1041,6 +1052,26 @@ namespace Explore
                     lvProviders.Items[0].Selected = true;
                     PopulateSelectedProviderInfo();
                 }
+            }
+        }
+
+        private void ctxmenuKeywordsCopyFlags_Click(
+            object sender, 
+            EventArgs e)
+        {
+            var flags = new List<string>();
+            foreach (ListViewItem lvi in lvProviderKeywords.CheckedItems)
+            {
+                string val = lvi.SubItems[0].Text;
+                string desc = lvi.SubItems[1].Text;
+
+                flags.Add(string.Format("0x{0} /* {1} */", val, desc));
+            }
+
+            if (flags.Count > 0)
+            {
+                Clipboard.Clear();
+                Clipboard.SetText("var keywords = \r\n\t" + string.Join(" |\r\n\t", flags) + ";");
             }
         }
     }

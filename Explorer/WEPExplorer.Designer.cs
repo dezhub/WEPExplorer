@@ -87,6 +87,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuMainHelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxmenuProvKeywords = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxmenuKeywordsCopyFlags = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.gbProviderFilters.SuspendLayout();
             this.gbProviderKeywords.SuspendLayout();
@@ -95,6 +96,7 @@
             this.ctxmenuProvMetadata.SuspendLayout();
             this.ctxmenuProviders.SuspendLayout();
             this.menuMain.SuspendLayout();
+            this.ctxmenuProvKeywords.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripMenuItem1
@@ -289,6 +291,7 @@
             // 
             // lvProviderKeywords
             // 
+            this.lvProviderKeywords.CheckBoxes = true;
             this.lvProviderKeywords.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.lvcKeywordsValue,
             this.lvcKeywordsName,
@@ -306,7 +309,7 @@
             // lvcKeywordsValue
             // 
             this.lvcKeywordsValue.Text = "Value";
-            this.lvcKeywordsValue.Width = 90;
+            this.lvcKeywordsValue.Width = 100;
             // 
             // lvcKeywordsName
             // 
@@ -563,8 +566,18 @@
             // 
             // ctxmenuProvKeywords
             // 
+            this.ctxmenuProvKeywords.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxmenuKeywordsCopyFlags});
             this.ctxmenuProvKeywords.Name = "ctxmenuProvKeywords";
-            this.ctxmenuProvKeywords.Size = new System.Drawing.Size(61, 4);
+            this.ctxmenuProvKeywords.Size = new System.Drawing.Size(173, 48);
+            // 
+            // ctxmenuKeywordsCopyFlags
+            // 
+            this.ctxmenuKeywordsCopyFlags.Name = "ctxmenuKeywordsCopyFlags";
+            this.ctxmenuKeywordsCopyFlags.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.ctxmenuKeywordsCopyFlags.Size = new System.Drawing.Size(172, 22);
+            this.ctxmenuKeywordsCopyFlags.Text = "Copy Flags";
+            this.ctxmenuKeywordsCopyFlags.Click += new System.EventHandler(this.ctxmenuKeywordsCopyFlags_Click);
             // 
             // WEPExplorer
             // 
@@ -578,7 +591,7 @@
             this.Controls.Add(this.gbProviderFilters);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WEPExplorer";
-            this.Text = "Windows Events Providers Explorer - v1.2";
+            this.Text = "Windows Events Providers Explorer";
             this.Load += new System.EventHandler(this.WEPExplorerForm_Load);
             this.gbProviderFilters.ResumeLayout(false);
             this.gbProviderFilters.PerformLayout();
@@ -590,6 +603,7 @@
             this.ctxmenuProviders.ResumeLayout(false);
             this.menuMain.ResumeLayout(false);
             this.menuMain.PerformLayout();
+            this.ctxmenuProvKeywords.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -648,6 +662,7 @@
         private System.Windows.Forms.ToolStripMenuItem ctxmenuProviderCopyName;
         private System.Windows.Forms.ComboBox cbProviderMetadataTemplateFieldsMatchCondition;
         private System.Windows.Forms.ToolStripMenuItem ctxmenuProviderCopyGuid;
+        private System.Windows.Forms.ToolStripMenuItem ctxmenuKeywordsCopyFlags;
     }
 }
 
